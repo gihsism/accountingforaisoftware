@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accounting for AI Software | XYZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00338D;
+      --primary-dark: #002060;
+      --primary-light: #0066B3;
+      --accent-cyan: #00A3E0;
+      --accent-purple: #6D2077;
+      --neutral-900: #1a1a2e;
+      --neutral-700: #4a4a5a;
+      --neutral-500: #7a7a8a;
+      --neutral-300: #c4c4cc;
+      --neutral-100: #f4f4f6;
+      --neutral-50: #fafafa;
+      --white: #ffffff;
+      --success: #00875A;
+      --warning: #FFAB00;
+      --gradient-hero: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--accent-purple) 100%);
+      --gradient-card: linear-gradient(180deg, var(--white) 0%, var(--neutral-50) 100%);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-card: 0 2px 8px rgba(0,51,141,0.08);
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--neutral-900);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--neutral-100);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--neutral-700);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: var(--gradient-hero);
+      padding: 10rem 2rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255,255,255,0.9);
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-intro {
+      color: rgba(255,255,255,0.8);
+      max-width: 700px;
+      font-size: 1rem;
+    }
+
+    /* Sections */
+    section {
+      padding: 5rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      color: var(--neutral-900);
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--neutral-500);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Challenge Section */
+    .challenge-section {
+      background: var(--neutral-50);
+    }
+
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .challenge-card {
+      background: var(--white);
+      padding: 1.75rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      border-left: 4px solid var(--primary);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .challenge-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .challenge-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--white);
+      font-size: 1.25rem;
+    }
+
+    .challenge-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--neutral-900);
+    }
+
+    .challenge-card p {
+      color: var(--neutral-500);
+      font-size: 0.9rem;
+    }
+
+    /* AI Types Cards */
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .type-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--neutral-100);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      transition: all 0.2s;
+    }
+
+    .type-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .type-icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      background: var(--neutral-100);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .type-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+      color: var(--neutral-900);
+    }
+
+    .type-card p {
+      color: var(--neutral-500);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    /* Framework Comparison */
+    .framework-section {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .framework-section .section-label {
+      color: var(--accent-cyan);
+    }
+
+    .framework-section .section-title {
+      color: var(--white);
+    }
+
+    .framework-section .section-desc {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .framework-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+    }
+
+    .framework-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .framework-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .framework-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .framework-list {
+      list-style: none;
+    }
+
+    .framework-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .framework-list li:last-child {
+      border-bottom: none;
+    }
+
+    .list-icon {
+      color: var(--accent-cyan);
+      font-weight: bold;
+      min-width: 20px;
+    }
+
+    .expense-tag {
+      background: rgba(255,100,100,0.2);
+      color: #ffaaaa;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .capitalize-tag {
+      background: rgba(100,255,150,0.2);
+      color: #aaffbb;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    /* Critical Question Callout */
+    .callout {
+      background: linear-gradient(135deg, var(--accent-purple), var(--primary-dark));
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .callout-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.5rem;
+    }
+
+    .callout h4 {
+      font-size: 1.25rem;
+      color: var(--white);
+    }
+
+    /* Cost Components Table */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .cost-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      font-size: 0.9rem;
+    }
+
+    .cost-table thead {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .cost-table th {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .cost-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--neutral-100);
+      vertical-align: top;
+    }
+
+    .cost-table tbody tr:hover {
+      background: var(--neutral-50);
+    }
+
+    .cost-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .treatment-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .treatment-capitalize {
+      background: #e6f7ef;
+      color: var(--success);
+    }
+
+    .treatment-expense {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .treatment-depends {
+      background: #e3f2fd;
+      color: var(--primary);
+    }
+
+    /* Amortization Section */
+    .amort-section {
+      background: var(--neutral-50);
+    }
+
+    .amort-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .amort-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .amort-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .amort-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      border-top: 3px solid var(--accent-cyan);
+    }
+
+    .amort-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      color: var(--neutral-900);
+    }
+
+    .amort-card p {
+      color: var(--neutral-500);
+      font-size: 0.9rem;
+    }
+
+    /* Training Data Section */
+    .data-section {
+      background: var(--white);
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .data-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--neutral-100);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .data-card:hover {
+      border-color: var(--accent-cyan);
+      box-shadow: var(--shadow-md);
+    }
+
+    .data-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .data-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--neutral-900);
+    }
+
+    .data-card p {
+      color: var(--neutral-500);
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .data-tag {
+      display: inline-block;
+      background: var(--neutral-100);
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .data-callout {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .data-callout h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .data-callout p {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Foundation Models Section */
+    .foundation-section {
+      background: var(--neutral-50);
+    }
+
+    .foundation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .foundation-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      border-top: 3px solid var(--accent-purple);
+    }
+
+    .foundation-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .foundation-number {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: var(--accent-purple);
+    }
+
+    .foundation-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--neutral-900);
+    }
+
+    .foundation-card > p {
+      color: var(--neutral-500);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .foundation-list {
+      list-style: none;
+      font-size: 0.85rem;
+    }
+
+    .foundation-list li {
+      padding: 0.5rem 0;
+      border-top: 1px solid var(--neutral-100);
+      color: var(--neutral-700);
+    }
+
+    .foundation-list li strong {
+      color: var(--neutral-900);
+    }
+
+    /* Questions Checklist */
+    .questions-section {
+      background: linear-gradient(180deg, var(--white) 0%, var(--neutral-50) 100%);
+    }
+
+    .questions-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1100px) {
+      .questions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .questions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .question-group {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .question-group-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--neutral-100);
+    }
+
+    .group-number {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .question-group h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--neutral-900);
+    }
+
+    .question-list {
+      list-style: none;
+    }
+
+    .question-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--neutral-100);
+      font-size: 0.9rem;
+      color: var(--neutral-700);
+    }
+
+    .question-item:last-child {
+      border-bottom: none;
+    }
+
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border: 2px solid var(--neutral-300);
+      border-radius: 4px;
+      margin-top: 2px;
+    }
+
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .comparison-table thead {
+      background: var(--neutral-900);
+      color: var(--white);
+    }
+
+    .comparison-table th {
+      padding: 1.25rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .comparison-table th:first-child {
+      width: 30%;
+    }
+
+    .comparison-table td {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--neutral-100);
+      font-size: 0.9rem;
+    }
+
+    .comparison-table tbody tr:nth-child(even) {
+      background: var(--neutral-50);
+    }
+
+    .comparison-table .ifrs-col {
+      background: rgba(0,163,224,0.05);
+    }
+
+    .comparison-table .gaap-col {
+      background: rgba(109,32,119,0.05);
+    }
+
+    /* Services Section */
+    .services-section {
+      background: var(--neutral-900);
+      color: var(--white);
+    }
+
+    .services-section .section-label {
+      color: var(--accent-cyan);
+    }
+
+    .services-section .section-title {
+      color: var(--white);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .service-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-5px);
+    }
+
+    .service-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.75rem;
+    }
+
+    .service-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .service-card p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: var(--gradient-hero);
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E");
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-content h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .cta-content p {
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--white);
+      color: var(--primary);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--neutral-900);
+      color: rgba(255,255,255,0.6);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      section {
+        padding: 3rem 1rem;
+      }
+      
+      .hero {
+        padding: 8rem 1rem 4rem;
+      }
+      
+      .framework-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cost-table {
+        font-size: 0.8rem;
+      }
+
+      .cost-table th,
+      .cost-table td {
+        padding: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">[XYZ brand logo]</div>
+    <ul class="nav-links">
+      <li><a href="#challenge">The Challenge</a></li>
+      <li><a href="#types">AI Types</a></li>
+      <li><a href="#framework">Framework</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#questions">Assessment</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">XYZ Accounting Advisory</span>
+      <h1>Accounting for AI Software</h1>
+      <p class="hero-subtitle">Navigate IFRS and US GAAP requirements with confidence as AI transforms your business.</p>
+      <p class="hero-intro">Whether you're fine-tuning foundation models, implementing RAG systems, or investing in training data—understanding when to capitalize versus expense has never been more critical.</p>
+    </div>
+  </section>
+
+  <!-- The Challenge -->
+  <section class="challenge-section" id="challenge">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">The Challenge</p>
+        <h2 class="section-title">Why AI Accounting Is Complex</h2>
+        <p class="section-desc">Traditional software accounting frameworks weren't designed for iterative, data-dependent AI development.</p>
+      </div>
+      
+      <div class="challenge-grid">
+        <div class="challenge-card">
+          <div class="challenge-icon">⚡</div>
+          <h4>Blurred Phase Boundaries</h4>
+          <p>Research and development activities often overlap in iterative ML workflows.</p>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-icon">⏱️</div>
+          <h4>Rapid Obsolescence</h4>
+          <p>AI models can become outdated within months, challenging useful life assumptions.</p>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-icon">🧩</div>
+          <h4>Novel Cost Components</h4>
+          <p>Training data, compute, and model weights don't map to traditional software cost categories in IAS 38 or ASC 350-40.</p>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-icon">📐</div>
+          <h4>Limited Explicit Guidance</h4>
+          <p>Standards don't address whether fine-tuning creates a new asset, how to treat adapter weights, or when RAG is capitalizable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Software Types -->
+  <section id="types">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Scope</p>
+        <h2 class="section-title">What Counts as AI Software?</h2>
+        <p class="section-desc">Most enterprises build on existing foundation models rather than training from scratch.</p>
+      </div>
+      
+      <div class="types-grid">
+        <div class="type-card">
+          <div class="type-icon">🔧</div>
+          <div>
+            <h4>Internally Developed AI/ML Models</h4>
+            <p>Custom algorithms and models built by your data science teams for specific business applications.</p>
+          </div>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">🏗️</div>
+          <div>
+            <h4>Fine-Tuning & Adapters</h4>
+            <p>Adapting third-party foundation models with proprietary data using LoRA, QLoRA, or full fine-tuning approaches.</p>
+          </div>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">🔄</div>
+          <div>
+            <h4>Continued Pre-Training (CPT)</h4>
+            <p>Extending foundation model training on domain-specific corpora to build specialized knowledge before fine-tuning.</p>
+          </div>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">🔗</div>
+          <div>
+            <h4>RAG & Retrieval Systems</h4>
+            <p>Retrieval-augmented generation architectures combining LLMs with enterprise knowledge bases and vector stores.</p>
+          </div>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">☁️</div>
+          <div>
+            <h4>AI-as-a-Service (Cloud)</h4>
+            <p>Subscription-based access to AI capabilities via API—from GPT endpoints to AutoML platforms.</p>
+          </div>
+        </div>
+        <div class="type-card">
+          <div class="type-icon">📦</div>
+          <div>
+            <h4>Purchased AI Software</h4>
+            <p>Licensed solutions with perpetual or term-based rights, deployed on-premise or in private cloud.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Framework Comparison -->
+  <section class="framework-section" id="framework">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Decision Framework</p>
+        <h2 class="section-title">Capitalize or Expense?</h2>
+        <p class="section-desc">Capitalization criteria for internally developed AI under IFRS and US GAAP.</p>
+      </div>
+      
+      <div class="framework-grid">
+        <div class="framework-card">
+          <span class="framework-badge">IAS 38.57</span>
+          <h3>IFRS Approach</h3>
+          <ul class="framework-list">
+            <li>
+              <span class="list-icon">→</span>
+              <span>Research phase <span class="expense-tag">EXPENSE</span> (no retrospective capitalization)</span>
+            </li>
+            <li>
+              <span class="list-icon">→</span>
+              <span>Development phase <span class="capitalize-tag">CAPITALIZE</span> prospectively when ALL 6 criteria met:</span>
+            </li>
+            <li>
+              <span class="list-icon">1</span>
+              <span>Technical feasibility to complete the asset</span>
+            </li>
+            <li>
+              <span class="list-icon">2</span>
+              <span>Intention to complete and use or sell</span>
+            </li>
+            <li>
+              <span class="list-icon">3</span>
+              <span>Ability to use or sell the asset</span>
+            </li>
+            <li>
+              <span class="list-icon">4</span>
+              <span>Probable future economic benefits demonstrable</span>
+            </li>
+            <li>
+              <span class="list-icon">5</span>
+              <span>Adequate resources (technical, financial, other) available</span>
+            </li>
+            <li>
+              <span class="list-icon">6</span>
+              <span>Expenditure reliably measurable during development</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="framework-card">
+          <span class="framework-badge">ASC 350-40</span>
+          <h3>US GAAP Approach (Internal-Use Software)</h3>
+          <ul class="framework-list">
+            <li>
+              <span class="list-icon">→</span>
+              <span>Preliminary stage <span class="expense-tag">EXPENSE</span> (conceptual formulation, vendor evaluation)</span>
+            </li>
+            <li>
+              <span class="list-icon">→</span>
+              <span>Application development <span class="capitalize-tag">CAPITALIZE</span> (management authorizes & commits funding)</span>
+            </li>
+            <li>
+              <span class="list-icon">→</span>
+              <span>Post-implementation <span class="expense-tag">EXPENSE</span> (training, maintenance)</span>
+            </li>
+            <li>
+              <span class="list-icon">•</span>
+              <span>Upgrades/enhancements → capitalize only if additional functionality</span>
+            </li>
+            <li>
+              <span class="list-icon">•</span>
+              <span>Training and data conversion → always expense</span>
+            </li>
+            <li>
+              <span class="list-icon">•</span>
+              <span>Cloud/hosting (service contract): may capitalize implementation costs (ASU 2018-15)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="callout">
+        <p class="callout-label">The Critical Question</p>
+        <h4>At what point can an entity demonstrate technical feasibility and management commitment for an AI model?</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cost Components -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Cost Analysis</p>
+        <h2 class="section-title">Key Cost Components</h2>
+        <p class="section-desc">Typical treatment guidance for common AI development costs.</p>
+      </div>
+      
+      <div class="table-wrapper">
+        <table class="cost-table">
+          <thead>
+            <tr>
+              <th>Cost Type</th>
+              <th>Typical Treatment</th>
+              <th>Key Consideration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Algorithm Development</strong></td>
+              <td><span class="treatment-badge treatment-depends">Depends on Phase</span></td>
+              <td>Capitalize post-feasibility; expense during experimentation</td>
+            </tr>
+            <tr>
+              <td><strong>Training Data Acquisition</strong></td>
+              <td><span class="treatment-badge treatment-depends">Depends on Phase</span></td>
+              <td>May qualify as separate intangible asset if reusable</td>
+            </tr>
+            <tr>
+              <td><strong>Data Labeling & Preparation</strong></td>
+              <td><span class="treatment-badge treatment-capitalize">Often Capitalize</span></td>
+              <td>Directly attributable to development; document carefully</td>
+            </tr>
+            <tr>
+              <td><strong>Cloud Compute (Development)</strong></td>
+              <td><span class="treatment-badge treatment-capitalize">Capitalize</span></td>
+              <td>Allocate between research and development activities</td>
+            </tr>
+            <tr>
+              <td><strong>Model Testing & Validation</strong></td>
+              <td><span class="treatment-badge treatment-capitalize">Capitalize</span></td>
+              <td>Part of development if post-technical feasibility</td>
+            </tr>
+            <tr>
+              <td><strong>Ongoing Model Retraining</strong></td>
+              <td><span class="treatment-badge treatment-expense">Typically Expense</span></td>
+              <td>Maintenance unless adding new functionality</td>
+            </tr>
+            <tr>
+              <td><strong>Infrastructure & MLOps</strong></td>
+              <td><span class="treatment-badge treatment-depends">Depends</span></td>
+              <td>Distinguish platform costs from specific model costs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Training Data Deep Dive -->
+  <section class="data-section" id="data">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Focus Area</p>
+        <h2 class="section-title">Training Data Acquisition</h2>
+        <p class="section-desc">Data is often the most significant—and complex—cost component in AI development.</p>
+      </div>
+      
+      <div class="data-grid">
+        <div class="data-card">
+          <div class="data-icon">🛒</div>
+          <h4>Third-Party Data Licensing</h4>
+          <p>Purchased datasets with usage rights. Consider whether the license is perpetual or term-based, exclusive or non-exclusive.</p>
+          <span class="data-tag">May qualify as separate intangible</span>
+        </div>
+        <div class="data-card">
+          <div class="data-icon">🏷️</div>
+          <h4>Data Labeling & Annotation</h4>
+          <p>Human or automated labeling to create supervised learning datasets. Directly attributable to model development.</p>
+          <span class="data-tag">May capitalize if post-feasibility</span>
+        </div>
+        <div class="data-card">
+          <div class="data-icon">🧹</div>
+          <h4>Data Cleaning & Preparation</h4>
+          <p>ETL processes, deduplication, normalization, and quality assurance to make data model-ready.</p>
+          <span class="data-tag">Consider allocation to phases</span>
+        </div>
+        <div class="data-card">
+          <div class="data-icon">🔮</div>
+          <h4>Synthetic Data Generation</h4>
+          <p>Creating artificial training data using simulation, augmentation, or generative models.</p>
+          <span class="data-tag">Emerging area—document rationale</span>
+        </div>
+        <div class="data-card">
+          <div class="data-icon">📚</div>
+          <h4>Domain Corpora for CPT</h4>
+          <p>Specialized text collections (legal, medical, financial) for continued pre-training of foundation models.</p>
+          <span class="data-tag">May qualify as separate asset</span>
+        </div>
+        <div class="data-card">
+          <div class="data-icon">🔐</div>
+          <h4>Proprietary Internal Data</h4>
+          <p>Using existing enterprise data for training. Consider incremental costs vs. already-capitalized systems.</p>
+          <span class="data-tag">Assess incremental costs only</span>
+        </div>
+      </div>
+      
+      <div class="data-callout">
+        <h4>Key Judgment: Separate Asset or Model Component?</h4>
+        <p>Reusable datasets that can train multiple models may warrant recognition as separate intangible assets with their own useful life assessment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Building on Foundation Models -->
+  <section class="foundation-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Common Scenario</p>
+        <h2 class="section-title">Building on Foundation Models</h2>
+        <p class="section-desc">Most enterprises don't train models from scratch—they adapt existing ones.</p>
+      </div>
+      
+      <div class="foundation-grid">
+        <div class="foundation-card">
+          <div class="foundation-header">
+            <span class="foundation-number">01</span>
+            <h4>Continued Pre-Training (CPT)</h4>
+          </div>
+          <p>Extending a foundation model's training on domain-specific data before task-specific fine-tuning.</p>
+          <ul class="foundation-list">
+            <li><strong>Costs:</strong> Domain corpora acquisition, compute for additional training epochs</li>
+            <li><strong>Key question:</strong> Does CPT create a distinct asset or enhance the base license?</li>
+            <li><strong>Consideration:</strong> Document the technical and economic separation from base model</li>
+          </ul>
+        </div>
+        
+        <div class="foundation-card">
+          <div class="foundation-header">
+            <span class="foundation-number">02</span>
+            <h4>Fine-Tuning & Adapters</h4>
+          </div>
+          <p>Task-specific adaptation using supervised learning, RLHF, or parameter-efficient methods (LoRA).</p>
+          <ul class="foundation-list">
+            <li><strong>Costs:</strong> Labeled datasets, compute, evaluation infrastructure</li>
+            <li><strong>Key question:</strong> When does experimentation end and development begin?</li>
+            <li><strong>Consideration:</strong> Adapter weights may be separable from base model costs</li>
+          </ul>
+        </div>
+        
+        <div class="foundation-card">
+          <div class="foundation-header">
+            <span class="foundation-number">03</span>
+            <h4>RAG Implementation</h4>
+          </div>
+          <p>Combining LLMs with retrieval systems, vector databases, and enterprise knowledge bases.</p>
+          <ul class="foundation-list">
+            <li><strong>Costs:</strong> Embedding models, vector DB infrastructure, chunking pipelines</li>
+            <li><strong>Key question:</strong> Is the retrieval layer a separate asset or integrated system?</li>
+            <li><strong>Consideration:</strong> Knowledge base may have different useful life than LLM layer</li>
+          </ul>
+        </div>
+        
+        <div class="foundation-card">
+          <div class="foundation-header">
+            <span class="foundation-number">04</span>
+            <h4>Prompt Engineering & Orchestration</h4>
+          </div>
+          <p>System prompts, chains, agents, and workflow orchestration built around foundation model APIs.</p>
+          <ul class="foundation-list">
+            <li><strong>Costs:</strong> Development labor, testing infrastructure, API consumption</li>
+            <li><strong>Key question:</strong> Does this create capitalizable software or operational process?</li>
+            <li><strong>Consideration:</strong> Thin layer over SaaS may not meet recognition criteria</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <section class="amort-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Subsequent Measurement</p>
+        <h2 class="section-title">Amortization & Useful Life</h2>
+        <p class="section-desc">Critical considerations for AI asset measurement after recognition.</p>
+      </div>
+      
+      <div class="amort-grid">
+        <div class="amort-card">
+          <h4>📅 Useful Life Uncertainty</h4>
+          <p>No established norms exist yet. Entities must apply significant judgment considering technology cycles, competitive dynamics, and model performance decay.</p>
+        </div>
+        <div class="amort-card">
+          <h4>📉 Model Drift Factor</h4>
+          <p>Performance degradation over time may indicate impairment or shortened useful life requiring reassessment.</p>
+        </div>
+        <div class="amort-card">
+          <h4>🔄 Continuous Learning</h4>
+          <p>Self-improving models challenge the boundary between maintenance and enhancement—document the distinction.</p>
+        </div>
+        <div class="amort-card">
+          <h4>⚠️ Impairment Triggers</h4>
+          <p>New competitor models, regulatory changes, or data quality issues may signal impairment testing need.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Questions Checklist -->
+  <section class="questions-section" id="questions">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Self-Assessment</p>
+        <h2 class="section-title">Questions to Ask</h2>
+        <p class="section-desc">Key considerations for your AI accounting policies.</p>
+      </div>
+      
+      <div class="questions-grid">
+        <div class="question-group">
+          <div class="question-group-header">
+            <span class="group-number">1</span>
+            <h3>Classification & Timing</h3>
+          </div>
+          <ul class="question-list">
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>What evidence documents the shift from research/preliminary to development/application stage?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>How do we demonstrate all 6 IAS 38 criteria (IFRS) or project stage entry (US GAAP)?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>How do we handle iterative ML workflows where phases overlap?</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-group-header">
+            <span class="group-number">2</span>
+            <h3>Data & Foundation Models</h3>
+          </div>
+          <ul class="question-list">
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>What is the unit of account—individual model, model version, or integrated system?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>Do training datasets meet separate recognition criteria as distinct intangibles?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>Does CPT/fine-tuning create a new asset or enhance the underlying license?</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-group-header">
+            <span class="group-number">3</span>
+            <h3>Cost Identification</h3>
+          </div>
+          <ul class="question-list">
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>Do employee and contractor costs meet "directly attributable" criteria (IAS 38.66)?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>How do we allocate shared compute between capitalizable and non-capitalizable activities?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>Are overhead and borrowing costs included or excluded during development?</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="question-group">
+          <div class="question-group-header">
+            <span class="group-number">4</span>
+            <h3>Ongoing Assessment</h3>
+          </div>
+          <ul class="question-list">
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>Does retraining add future benefits (capitalize) or maintain current function (expense)?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>What indicators trigger impairment review (model drift, new competitors, regulatory)?</span>
+            </li>
+            <li class="question-item">
+              <div class="checkbox"></div>
+              <span>How do we document useful life estimates and reassess at each reporting date?</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IFRS vs GAAP Comparison -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Quick Reference</p>
+        <h2 class="section-title">IFRS vs. US GAAP at a Glance</h2>
+      </div>
+      
+      <div class="table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>IFRS</th>
+              <th>US GAAP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Capitalization Trigger</strong></td>
+              <td class="ifrs-col">Development phase + all 6 IAS 38 criteria demonstrated</td>
+              <td class="gaap-col">Preliminary stage complete + management commits to fund</td>
+            </tr>
+            <tr>
+              <td><strong>Cloud/SaaS Arrangements</strong></td>
+              <td class="ifrs-col">IFRIC Apr 2021: Config/customization costs typically expensed</td>
+              <td class="gaap-col">ASC 350-40: Implementation costs may capitalize if service contract</td>
+            </tr>
+            <tr>
+              <td><strong>Revaluation Permitted?</strong></td>
+              <td class="ifrs-col">Yes, if active market (rare for software/AI)</td>
+              <td class="gaap-col">No—cost model only</td>
+            </tr>
+            <tr>
+              <td><strong>Disclosure Focus</strong></td>
+              <td class="ifrs-col">Carrying amounts, useful lives, R&D expensed</td>
+              <td class="gaap-col">Amortization expense, accumulated amortization by class</td>
+            </tr>
+            <tr>
+              <td><strong>Impairment Model</strong></td>
+              <td class="ifrs-col">IAS 36: One-step (carrying amount vs recoverable amount)</td>
+              <td class="gaap-col">ASC 360: Two-step (recoverability test, then fair value)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Our Support</p>
+        <h2 class="section-title">How XYZ Can Help</h2>
+      </div>
+      
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">📋</div>
+          <h4>Policy Development</h4>
+          <p>Design robust accounting policies tailored to your AI initiatives and technology stack.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🚀</div>
+          <h4>Implementation Support</h4>
+          <p>Hands-on guidance for complex cost allocation, phase determination, and documentation.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎓</div>
+          <h4>Team Training</h4>
+          <p>Upskill your finance and data teams on AI accounting requirements and best practices.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="cta-content">
+      <h2>Ready to Get Your AI Accounting Right?</h2>
+      <p>Our specialists combine deep technical accounting expertise with practical AI knowledge.</p>
+      <a href="#" class="cta-button">Talk to Our Specialists</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 XYZ Company. All rights reserved. | <a href="#">Privacy</a> | <a href="#">Legal</a> | <a href="#">Accessibility</a></p>
+    <p style="margin-top: 0.5rem; font-size: 0.75rem;">References: IAS 38, ASC 350-40, ASC 985-20, IFRIC Agenda Decisions on Cloud Computing</p>
+  </footer>
+
+  <!-- Hypothesis Commenting -->
+  <script src="https://hypothes.is/embed.js" async></script>
+
+</body>
+</html>
